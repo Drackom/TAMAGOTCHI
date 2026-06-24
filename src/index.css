@@ -1,0 +1,244 @@
+/* src/index.css */
+
+/* 🌍 CONFIGURACIÓN GLOBAL (Fija e inmutable) */
+:root {
+  --lcd-fondo: #0a2912;       
+  --lcd-píxel: #5fff72;       
+  --goma-luz: #8a8e93;        
+  --goma-base: #4e5156;       
+  --goma-sombra: #242628;     
+}
+
+/* 🎨 CONFIGURACIÓN DE PROPIEDADES POR CHASIS */
+body.theme-pink { 
+  --chasis-color: #ff8fa3; 
+  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.75), 1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+body.theme-blue { 
+  --chasis-color: #3a86ff; 
+  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.6), 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+body.theme-black { 
+  --chasis-color: #22252a; 
+  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.12), 1px 1px 1px rgba(0, 0, 0, 0.95);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--chasis-color);
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  transition: background-color 0.3s ease; 
+  animation: parpadeoPantalla 6s infinite;
+}
+
+/* 🧸 EFECTO RELIEVE EN PLÁSTICO DINÁMICO */
+.texto-relieve {
+  color: var(--chasis-color); 
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: var(--text-shadow-relieve);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* 📟 PANTALLA LCD TAMAGOTCHI */
+.pantalla-tamagotchi {
+  background-color: var(--lcd-fondo);
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+  background-size: 3px 3px;
+  border: none;
+  box-shadow: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.7),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
+    0px 2px 1px rgba(255, 255, 255, 0.4);
+  color: var(--lcd-píxel);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  letter-spacing: 2px;
+  text-shadow: 0 0 3px var(--lcd-píxel);
+}
+
+/* 🔴 BOTONES DE GOMA INTERACTIVOS */
+.contenedor-botones {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 25px;
+}
+
+.boton-goma-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-goma {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--goma-luz) 0%, var(--goma-base) 55%, var(--goma-sombra) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    0px 6px 6px rgba(0, 0, 0, 0.35),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.25),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.btn-goma:active {
+  transform: translateY(3px);
+  box-shadow: 
+    0px 2px 3px rgba(0, 0, 0, 0.4),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* 🎛️ PERILLA FÍSICA LATERAL IZQUIERDA */
+.panel-perilla-lateral {
+  position: fixed;
+  left: 40px; 
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  user-select: none;
+}
+
+.carril-perilla {
+  width: 22px;
+  height: 110px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 
+    inset 3px 3px 5px rgba(0, 0, 0, 0.7),
+    1px 1px 1px rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+.perilla-mecanica {
+  width: 32px;
+  height: 26px;
+  border-radius: 4px;
+  position: absolute;
+  left: -5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: 
+    repeating-linear-gradient(
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.3) 4px,
+      rgba(0, 0, 0, 0.3) 6px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.3) 100%),
+    var(--chasis-color);
+  box-shadow: 
+    0px 4px 5px rgba(0, 0, 0, 0.4),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.25);
+  transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2), background-color 0.3s ease;
+}
+
+.perilla-pos-blue { top: 4px; }
+.perilla-pos-pink { top: 42px; }
+.perilla-pos-black { top: 80px; }
+
+.etiquetas-perilla {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 106px;
+  padding-top: 2px;
+}
+
+.etiqueta-click {
+  cursor: pointer;
+  font-size: 0.85rem !important;
+  transition: transform 0.1s ease;
+}
+
+.etiqueta-click:hover {
+  transform: scale(1.05);
+}
+
+/* ⚠️ CARTEL DE ADVERTENCIA RETRO (Inferior Derecho) */
+.contenedor-advertencia {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  user-select: none;
+}
+
+/* El hueco profundo calado directamente en el plástico */
+.hueco-plastico {
+  padding: 3px;
+  background-color: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  box-shadow: 
+    inset 3px 3px 4px rgba(0, 0, 0, 0.65), 
+    1px 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+/* La etiqueta plástica blanca de vinilo pegada adentro */
+.etiqueta-blanca-retro {
+  background: linear-gradient(135deg, #fcfcfc 0%, #f1f2f6 100%);
+  border: 1px solid #ced6e0;
+  border-radius: 2px;
+  padding: 10px 14px;
+  max-width: 290px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo de impresión industrial antigua */
+.texto-alerta {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #1e272e;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+.simbolo-alerta {
+  font-size: 1.4rem;
+  color: #ff3f34; /* Rojo/Naranja de advertencia clásico */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🎥 ANIMACIÓN DE PANTALLA */
+@keyframes parpadeoPantalla {
+  0%, 100% { opacity: 1; }
+  48% { opacity: 1; }
+  49% { opacity: 0.96; }
+  50% { opacity: 1; }
+  52% { opacity: 1; }
+  53% { opacity: 0.94; }
+  54% { opacity: 1; }
+}
