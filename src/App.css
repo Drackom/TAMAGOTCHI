@@ -1,153 +1,340 @@
-// src/App.jsx
-import React, { useState, useEffect } from 'react'
-// Importamos nuestro chip de sonido desde la nueva carpeta de utilidades
-import { reproducirSonidoRetro } from './utils/audio'
+/* ==========================================================================
+   ARQUITECTURA DE HARDWARE RETRO (CHASIS ANCHO COMPATIBLE)
+   ========================================================================== */
 
-function App() {
-  const [pantalla, setPantalla] = useState('login')
-  const [usuario, setUsuario] = useState('')
-  const [password, setPassword] = useState('')
-  const [tema, setTema] = useState('pink')
-
-  useEffect(() => {
-    document.body.className = `theme-${tema}`
-  }, [tema])
-
-  // Cambiar de chasis con sonido de click mecánico
-  const cambiarTema = (nuevoTema) => {
-    reproducirSonidoRetro('click')
-    setTema(nuevoTema)
-  }
-
-  const manejarLogin = (e) => {
-    e.preventDefault()
-    if (usuario.trim() !== '' && password.trim() !== '') {
-      reproducirSonidoRetro('exito') // ¡Login correcto! Arpegio ascendente
-      setPantalla('menu')
-    } else {
-      reproducirSonidoRetro('error') // Campos vacíos. Zumbido de error
-      alert('¡Ingresa los datos en la pantalla de tu Tamagotchi!')
-    }
-  }
-
-  return (
-    <>
-      <div style={{ width: '100%', maxWidth: '460px', padding: '20px' }}>
-        
-        {/* INTERFAZ DE LOGIN */}
-        {pantalla === 'login' && (
-          <form onSubmit={manejarLogin} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label className="texto-relieve">USUARIO</label>
-              <input 
-                type="text" 
-                value={usuario}
-                onChange={(e) => setUsuario(e.target.value)}
-                className="pantalla-tamagotchi"
-                placeholder="_______________"
-                autoComplete="off"
-              />
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label className="texto-relieve">CONTRASEÑA</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="pantalla-tamagotchi"
-                placeholder="•••••••••••••••"
-              />
-            </div>
-
-            {/* BOTONES DE GOMA CONSTANTES */}
-            <div className="contenedor-botones">
-              <div className="boton-goma-wrapper">
-                <button type="submit" className="btn-goma" title="Iniciar Sesión" />
-                <span className="texto-relieve" style={{ fontSize: '0.75rem', letterSpacing: '1px' }}>
-                  Iniciar Sesión
-                </span>
-              </div>
-
-              <div className="boton-goma-wrapper">
-                <button 
-                  type="button" 
-                  className="btn-goma" 
-                  title="Registrarse"
-                  onClick={() => {
-                    reproducirSonidoRetro('click')
-                    alert('¡Abriendo pantalla de registro!')
-                  }} 
-                />
-                <span className="texto-relieve" style={{ fontSize: '0.75rem', letterSpacing: '1px' }}>
-                  Registrarse
-                </span>
-              </div>
-            </div>
-
-          </form>
-        )}
-
-        {/* MENÚ PRINCIPAL */}
-        {pantalla === 'menu' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', textAlign: 'center' }}>
-            <p className="texto-relieve" style={{ fontSize: '1.1rem', marginBottom: '10px' }}>
-              HOLA: {usuario}
-            </p>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
-                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Lector...') }} />
-                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>⚡ LECTOR ⚡</span>
-              </div>
-              
-              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
-                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Estudio...') }} />
-                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>📝 ESTUDIO 📝</span>
-              </div>
-
-              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
-                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Resumen...') }} />
-                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>📊 RESUMEN 📊</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </div>
-
-      {/* SWITCH SUPERIOR IZQUIERDO */}
-      <div className="panel-perilla-lateral">
-        <div className="carril-perilla" onClick={() => {
-          if (tema === 'blue') cambiarTema('pink')
-          else if (tema === 'pink') cambiarTema('black')
-          else cambiarTema('blue')
-        }}>
-          <div className={`perilla-mecanica perilla-pos-${tema}`} />
-        </div>
-
-        <div className="etiquetas-perilla">
-          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('blue')}>BLUE —</span>
-          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('pink')}>PINK —</span>
-          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('black')}>BLACK —</span>
-        </div>
-      </div>
-
-      {/* TEXTO DE ADVERTENCIA GRABADO EN PLÁSTICO */}
-      {pantalla === 'login' && (
-        <div className="contenedor-advertencia">
-          <p className="texto-alerta-mecanico">
-            <span className="simbolo-alerta-mecanico">⚠️</span>
-            <span>
-              SE RECOMIENDA F11 PANTALLA COMPLETA<br />
-              DESACTIVAR FORZAR MODO OSCURO EN NAVEGADOR
-            </span>
-          </p>
-        </div>
-      )}
-    </>
-  )
+/* Contenedor específico para mantener el login centrado y contenido */
+.contenedor-login-wrapper {
+  width: 100%;
+  max-width: 460px;
+  padding: 20px;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-export default App
+.chasis-tamagotchi-hardware {
+  display: grid;
+  /* Definimos las 5 columnas limpias para que nada se solape al centro */
+  grid-template-columns: 30px auto 1fr auto 30px;
+  align-items: center;
+  background-color: #ff8da1; 
+  border-radius: 28px;
+  border: 6px solid #e1637b;
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.5),
+    inset 0 6px 10px rgba(255, 255, 255, 0.4),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.3);
+  padding: 25px 20px;
+  width: 100%;
+  max-width: 880px; /* Mantiene la hermosa escala horizontal original */
+  margin: 40px auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* --- TEXTURA DE PARLANTES LATERALES --- */
+.parlante-grilla-huecos {
+  width: 12px;
+  height: 220px;
+  justify-self: center;
+  background-image: radial-gradient(circle, #3a0d16 35%, transparent 40%);
+  background-size: 4px 8px;
+  opacity: 0.55;
+}
+
+/* --- CONTENEDORES DE BOTONES LATERALES --- */
+.panel-botones-lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.panel-botones-lateral.izquierdo {
+  align-items: flex-end;
+  padding-right: 15px;
+}
+
+.panel-botones-lateral.derecho {
+  align-items: flex-start;
+  padding-left: 15px;
+}
+
+/* --- FILAS DE CONTROL (SOPORTA TU WRAPPER ORIGINAL) --- */
+.bocadito-control, 
+.boton-goma-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Espejado de controles según el lateral físico */
+.panel-botones-lateral.izquierdo .bocadito-control,
+.panel-botones-lateral.izquierdo .boton-goma-wrapper {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.panel-botones-lateral.derecho .bocadito-control,
+.panel-botones-lateral.derecho .boton-goma-wrapper {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* --- BOTONES DE GOMA INTERACTIVOS 3D --- */
+.boton-goma-circular,
+.panel-botones-lateral .btn-goma {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #5a6275, #232731);
+  border: 2px solid #111318;
+  box-shadow: 
+    0 4px 0 #181a22,
+    0 4px 6px rgba(0,0,0,0.4);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.05s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff3b30;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.boton-goma-circular:active,
+.panel-botones-lateral .btn-goma:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #181a22, inset 0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Botón de deslogueo con estética de apagado crítico */
+.btn-power-off {
+  background: radial-gradient(circle at 30% 30%, #ff4d6d, #800f2f) !important;
+  border: 2px solid #4a0010 !important;
+  box-shadow: 0 4px 0 #4a0010, 0 4px 6px rgba(0,0,0,0.4) !important;
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.btn-power-off:active {
+  box-shadow: 0 1px 0 #4a0010, inset 0 2px 4px rgba(0,0,0,0.6) !important;
+}
+
+/* --- ROTULACIONES IMPRESAS EN EL PLÁSTICO ROSA --- */
+.panel-botones-lateral .texto-relieve,
+.etiqueta-plastico,
+.etiqueta-plastico-power {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #520b17;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.etiqueta-plastico-power {
+  color: #800f2f;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   NÚCLEO CENTRAL: MÓDULO PANTALLA CRISTAL LÍQUIDO VERDE
+   ========================================================================== */
+
+.consola-centro-pantalla {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Saludo o marcador del Operador arriba de la pantalla */
+.marcador-operador {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #520b17;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* --- RECONSTRUCCIÓN DE LA PANTALLA LCD COMPATIBLE --- */
+.pantalla-verde-cristal {
+  background: #24aa47;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.15) 50%, transparent 50%),
+    radial-gradient(#3be46d, #145c27);
+  background-size: 100% 4px, cover;
+  border: 12px solid #1a1c23; /* Bisel contenedor negro industrial */
+  border-radius: 18px;
+  box-shadow: 
+    inset 0px 6px 14px rgba(0, 0, 0, 0.85),
+    0 0 15px rgba(36, 170, 71, 0.25);
+  padding: 12px 15px;
+  height: 280px;
+  width: 100%;
+  min-width: 380px; /* Impide colapsos horizontales */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- DISTRIBUCIÓN DE CABECERA Y FOOTER INTERNOS DE LA LCD --- */
+.header-interno-lcd {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px dashed rgba(4, 47, 26, 0.3);
+  padding-bottom: 4px;
+}
+
+.header-interno-lcd span,
+.barra-calendario-lcd-footer div {
+  font-family: monospace;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #042f1a;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.contenido-dinamico-lcd {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+.barra-calendario-lcd-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-top: 1px dashed rgba(4, 47, 26, 0.3);
+  padding-top: 4px;
+}
+
+.linea-tiempo-puntos {
+  letter-spacing: -1px;
+}
+
+/* --- COMPONENTES DEL MENÚ DE BICHITOS --- */
+.grid-personajes-retro {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.bichito-celda-directa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Renderizado Pixel Art Puro */
+.bichito-pixel {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.subetiqueta-lcd {
+  font-family: monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #042f1a;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
+}
+
+/* --- ESTILOS DE MÓDULOS INTERNOS DE LA PANTALLA (NUEVOS) --- */
+.modulo-pantalla-contenedor {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.titulo-modulo-lcd {
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #042f1a;
+  letter-spacing: 0.5px;
+}
+
+.simulacion-lista-lcd {
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #042f1a;
+  text-align: left;
+  align-self: flex-start;
+  width: 100%;
+  padding-left: 15px;
+  line-height: 1.4;
+}
+
+.display-calculadora-interno {
+  font-family: monospace;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #042f1a;
+  background-color: rgba(0, 0, 0, 0.08);
+  width: 90%;
+  padding: 6px 10px;
+  text-align: right;
+  border-radius: 4px;
+  border: 1px solid rgba(4, 47, 26, 0.2);
+  letter-spacing: 1px;
+  box-sizing: border-box;
+}
+
+.volver-menu-lcd-btn {
+  background: rgba(4, 47, 26, 0.15) !important;
+  border: 1px solid #042f1a !important;
+  font-family: monospace !important;
+  font-size: 0.75rem !important;
+  font-weight: bold !important;
+  color: #042f1a !important;
+  padding: 3px 10px !important;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.1s ease;
+}
+
+.volver-menu-lcd-btn:hover {
+  background: #042f1a !important;
+  color: #24aa47 !important;
+}
+
+/* --- ANIMACIÓN LCD --- */
+.bichito-pixel .f1 {
+  animation: lcdTickOn 0.65s steps(1) infinite;
+}
+
+@keyframes lcdTickOn {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
