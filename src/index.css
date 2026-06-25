@@ -1,6 +1,5 @@
 /* src/index.css */
 
-/* 🌍 CONFIGURACIÓN GLOBAL (Fija e inmutable) */
 :root {
   --lcd-fondo: #0a2912;       
   --lcd-píxel: #5fff72;       
@@ -9,236 +8,301 @@
   --goma-sombra: #242628;     
 }
 
-/* 🎨 CONFIGURACIÓN DE PROPIEDADES POR CHASIS */
+/* CONFIGURACIÓN MODO PINK */
 body.theme-pink { 
   --chasis-color: #ff8fa3; 
-  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.75), 1px 1px 2px rgba(0, 0, 0, 0.25);
+  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.85), 1px 1px 2px rgba(0, 0, 0, 0.25);
+  --plastic-dark: #b84a5f;      
+  --plastic-light: #ffccd5;     
+  --plastic-cavidad: #9e4354;
 }
 
 body.theme-blue { 
   --chasis-color: #3a86ff; 
   --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.6), 1px 1px 2px rgba(0, 0, 0, 0.4);
+  --plastic-dark: #1b5ec2;
+  --plastic-light: #8ec2ff;
+  --plastic-cavidad: #174593;
 }
 
+/* CONFIGURACIÓN MODO BLACK */
 body.theme-black { 
-  --chasis-color: #22252a; 
-  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.12), 1px 1px 1px rgba(0, 0, 0, 0.95);
+  --chasis-color: #2b2e35; 
+  --text-shadow-relieve: -1px -1px 0px rgba(255, 255, 255, 0.15), 1px 1px 1px rgba(0, 0, 0, 0.85);
+  --plastic-dark: #141518;
+  --plastic-light: #494f5a;
+  --plastic-cavidad: #1f2228;   
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
   background-color: var(--chasis-color);
   font-family: 'Courier New', Courier, monospace;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; overflow: hidden;
   transition: background-color 0.3s ease; 
-  animation: parpadeoPantalla 6s infinite;
 }
 
-/* 🧸 EFECTO RELIEVE EN PLÁSTICO DINÁMICO */
 .texto-relieve {
   color: var(--chasis-color); 
   font-weight: 900;
-  font-size: 1.3rem;
-  letter-spacing: 2px;
   text-transform: uppercase;
   text-shadow: var(--text-shadow-relieve);
-  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-/* 📟 PANTALLA LCD TAMAGOTCHI */
+/* PANTALLAS LCD */
 .pantalla-tamagotchi {
   background-color: var(--lcd-fondo);
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.35) 1px, transparent 1px), 
+    linear-gradient(90deg, rgba(0, 0, 0, 0.35) 1px, transparent 1px);
   background-size: 3px 3px;
-  border: none;
+  
+  border-top: 4px solid var(--plastic-dark);
+  border-left: 4px solid var(--plastic-dark);
+  border-right: 3px solid var(--plastic-light);
+  border-bottom: 3px solid var(--plastic-light);
+  
   box-shadow: 
-    inset 4px 4px 8px rgba(0, 0, 0, 0.7),
-    inset -2px -2px 4px rgba(255, 255, 255, 0.1),
-    0px 2px 1px rgba(255, 255, 255, 0.4);
+    inset 5px 6px 12px rgba(0, 0, 0, 0.95),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.05),
+    0px 2px 2px rgba(255, 255, 255, 0.25),
+    2px 3px 6px rgba(0, 0, 0, 0.15);
+    
   color: var(--lcd-píxel);
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 18px;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
+  font-size: 1.1rem; font-weight: bold; padding: 14px; width: 100%; box-sizing: border-box;
+  outline: none; letter-spacing: 2px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.85);
+  border-radius: 4px;
+}
+
+.pantalla-tamagotchi::placeholder {
+  color: rgba(95, 255, 114, 0.22) !important;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 700;
+  opacity: 1 !important;
   letter-spacing: 2px;
-  text-shadow: 0 0 3px var(--lcd-píxel);
 }
 
-/* 🔴 BOTONES DE GOMA INTERACTIVOS */
-.contenedor-botones {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  margin-top: 25px;
-}
-
-.boton-goma-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.btn-goma {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--goma-luz) 0%, var(--goma-base) 55%, var(--goma-sombra) 100%);
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  box-shadow: 
-    0px 6px 6px rgba(0, 0, 0, 0.35),
-    inset 2px 2px 3px rgba(255, 255, 255, 0.25),
-    inset -3px -3px 5px rgba(0, 0, 0, 0.6);
-  cursor: pointer;
-  position: relative;
-  outline: none;
-  transition: transform 0.06s ease, box-shadow 0.06s ease;
-}
-
-.btn-goma:active {
-  transform: translateY(3px);
-  box-shadow: 
-    0px 2px 3px rgba(0, 0, 0, 0.4),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.8);
-}
-
-/* 🎛️ PERILLA FÍSICA LATERAL IZQUIERDA */
-.panel-perilla-lateral {
-  position: fixed;
-  left: 40px; 
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  user-select: none;
-}
-
-.carril-perilla {
-  width: 22px;
-  height: 110px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  position: relative;
-  box-shadow: 
-    inset 3px 3px 5px rgba(0, 0, 0, 0.7),
-    1px 1px 1px rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-}
-
-.perilla-mecanica {
-  width: 32px;
-  height: 26px;
-  border-radius: 4px;
-  position: absolute;
-  left: -5px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  background: 
-    repeating-linear-gradient(
-      transparent,
-      transparent 4px,
-      rgba(0, 0, 0, 0.3) 4px,
-      rgba(0, 0, 0, 0.3) 6px
-    ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.3) 100%),
-    var(--chasis-color);
-  box-shadow: 
-    0px 4px 5px rgba(0, 0, 0, 0.4),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.25);
-  transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2), background-color 0.3s ease;
-}
-
-.perilla-pos-blue { top: 4px; }
-.perilla-pos-pink { top: 42px; }
-.perilla-pos-black { top: 80px; }
-
-.etiquetas-perilla {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 106px;
-  padding-top: 2px;
-}
-
-.etiqueta-click {
-  cursor: pointer;
-  font-size: 0.85rem !important;
-  transition: transform 0.1s ease;
-}
-
-.etiqueta-click:hover {
-  transform: scale(1.05);
-}
-
-/* ⚠️ CARTEL DE ADVERTENCIA RETRO (Inferior Derecho) */
-.contenedor-advertencia {
-  position: fixed;
-  right: 40px;
-  bottom: 40px;
-  user-select: none;
-}
-
-/* El hueco profundo calado directamente en el plástico */
-.hueco-plastico {
-  padding: 3px;
-  background-color: rgba(0, 0, 0, 0.18);
-  border-radius: 4px;
-  box-shadow: 
-    inset 3px 3px 4px rgba(0, 0, 0, 0.65), 
-    1px 1px 1px rgba(255, 255, 255, 0.15);
-}
-
-/* La etiqueta plástica blanca de vinilo pegada adentro */
-.etiqueta-blanca-retro {
-  background: linear-gradient(135deg, #fcfcfc 0%, #f1f2f6 100%);
-  border: 1px solid #ced6e0;
-  border-radius: 2px;
-  padding: 10px 14px;
-  max-width: 290px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
-}
-
-/* Estilo de impresión industrial antigua */
-.texto-alerta {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 0.62rem;
-  font-weight: 800;
-  color: #1e272e;
-  line-height: 1.4;
-  letter-spacing: 0.3px;
+/* CARTEL INDUSTRIAL DE ADVERTENCIA RECUPERADO Y AMPLIADO */
+.warning-esquina {
+  position: fixed;      /* Se fija respecto a la pantalla */
+  bottom: 30px;         /* Distancia desde el borde inferior */
+  right: 40px;          /* Distancia desde el borde derecho */
+  text-align: center;   /* Centra las líneas de texto entre sí */
+  background: none;     /* Quitamos cualquier color de fondo */
+  border: none;         /* ¡Adiós a las líneas discontinuas "- - - -"! */
+  padding: 0;
   margin: 0;
+  z-index: 10;          /* Asegura que quede por encima del fondo */
+  pointer-events: none; /* Evita que interfiera si haces clic en esa zona */
 }
 
-.simbolo-alerta {
-  font-size: 1.4rem;
-  color: #ff3f34; /* Rojo/Naranja de advertencia clásico */
+/* Estilos opcionales para ajustar el tamaño del texto dentro del aviso */
+.warning-titulo {
+  font-size: 12pt;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
 }
 
-/* 🎥 ANIMACIÓN DE PANTALLA */
-@keyframes parpadeoPantalla {
-  0%, 100% { opacity: 1; }
-  48% { opacity: 1; }
-  49% { opacity: 0.96; }
-  50% { opacity: 1; }
-  52% { opacity: 1; }
-  53% { opacity: 0.94; }
-  54% { opacity: 1; }
+.warning-subtexto {
+  font-size: 9pt;
+  margin: 2px 0;
+  letter-spacing: 0.5px;
+}
+
+/* Posicionamiento específico solicitado: mucho más abajo y a la derecha */
+.posicion-login-baja {
+  position: absolute;
+  bottom: -95px;
+  right: -30px;
+  z-index: 5;
+}
+
+/* BOTONES GOMA */
+.contenedor-botones { display: flex; justify-content: center; gap: 50px; margin-top: 25px; }
+.boton-goma-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.btn-goma {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--goma-luz) 0%, var(--goma-base) 55%, var(--goma-sombra) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.4), inset 2px 2px 3px rgba(255, 255, 255, 0.25), inset -3px -3px 5px rgba(0, 0, 0, 0.6);
+  cursor: pointer; position: relative; outline: none;
+}
+.btn-goma:active { transform: translateY(2px); box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.4); }
+
+/* PERILLA LATERAL */
+.panel-perilla-lateral { position: fixed; left: 40px; top: 40px; display: flex; align-items: center; gap: 15px; user-select: none; }
+.carril-perilla { width: 22px; height: 110px; background-color: rgba(0, 0, 0, 0.3); border-radius: 10px; position: relative; box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.7); cursor: pointer; }
+.perilla-mecanica {
+  width: 32px; height: 26px; border-radius: 4px; position: absolute; left: -5px; border: 1px solid rgba(0, 0, 0, 0.5);
+  background: repeating-linear-gradient(transparent, transparent 4px, rgba(0, 0, 0, 0.3) 4px, rgba(0, 0, 0, 0.3) 6px), linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.3) 100%), var(--chasis-color);
+  box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.4); transition: top 0.2s ease;
+}
+.perilla-pos-blue { top: 4px; } .perilla-pos-pink { top: 42px; } .perilla-pos-black { top: 80px; }
+.etiquetas-perilla { display: flex; flex-direction: column; justify-content: space-between; height: 106px; }
+
+/* REAR PANEL COMPARTIMENTO BATERÍAS */
+.capa-registro-trasera {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: var(--chasis-color); z-index: 100;
+  display: flex; justify-content: center; align-items: center;
+}
+
+.carcasa-trasera-moldura {
+  width: 820px; display: flex; gap: 0px; padding: 45px; border-radius: 32px;
+  background-color: var(--chasis-color); border: 4px solid var(--plastic-dark);
+  box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1), inset 10px 10px 20px rgba(255,255,255,0.35), 0px 25px 60px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.bloque-izquierdo-inputs { flex: 1; display: flex; flex-direction: column; gap: 18px; padding-right: 40px; }
+.bloque-derecho-botones { width: 165px; display: flex; flex-direction: column; justify-content: center; gap: 30px; align-items: center; padding-left: 20px; position: relative; }
+
+.linea-molde-carcasa {
+  position: absolute; left: 0; top: -45px; width: 3px; height: calc(100% + 90px);
+  background-color: var(--plastic-dark); box-shadow: 1px 0px 1px var(--plastic-light);
+}
+
+.contenedor-bloque-baterias {
+  margin-top: 20px; position: relative; width: 100%; max-width: 440px; margin-left: auto; margin-right: auto; height: 195px;
+}
+
+.receso-chasis-baterias {
+  width: 100%; height: 145px; 
+  background: linear-gradient(135deg, var(--plastic-cavidad) 0%, rgba(255,255,255,0.03) 100%), var(--plastic-cavidad);
+  border-radius: 12px; border: 3px solid var(--plastic-dark);
+  box-shadow: inset 6px 6px 14px rgba(0, 0, 0, 0.75), 1px 1px 1px var(--plastic-light);
+  position: absolute; bottom: 0; left: 0; box-sizing: border-box;
+}
+
+.pestana-chasis-tornillo {
+  position: absolute; top: 12px; left: calc(50% - 32px); width: 64px; height: 45px;
+  background-color: var(--plastic-cavidad); border: 3px solid var(--plastic-dark);
+  border-bottom: none; border-top-left-radius: 32px; border-top-right-radius: 32px;
+  box-shadow: inset 6px 4px 6px rgba(0, 0, 0, 0.5); box-sizing: border-box;
+}
+
+.agujero-rosca-fijo {
+  position: absolute; top: 22px; left: calc(50% - 9px); width: 18px; height: 18px;
+  border-radius: 50%; background-color: #0d0e10; box-shadow: inset 1px 2px 4px rgba(0,0,0,0.9);
+  z-index: 5;
+}
+
+.ranuras-moneda-wrapper {
+  display: flex; justify-content: center; gap: 24px; padding: 20px; height: 100%; box-sizing: border-box; align-items: center;
+}
+
+.well-circular-pila {
+  width: 85px; height: 85px; border-radius: 50%;
+  background: radial-gradient(circle at 45% 45%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.5) 85%), var(--plastic-cavidad);
+  border: 2px solid var(--plastic-dark);
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.85), 1px 1px 1px rgba(255,255,255,0.07);
+  position: relative; display: flex; justify-content: center; align-items: center;
+}
+
+.marca-polaridad-grabada {
+  font-family: Arial, sans-serif; font-size: 24px; font-weight: bold;
+  color: rgba(0,0,0,0.35); text-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+  user-select: none;
+}
+
+.pila-coin-lr44 {
+  width: 86%; height: 86%; border-radius: 50%; position: absolute;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e3e5e8 30%, #9ca1a8 65%, #63686e 100%);
+  box-shadow: 2px 6px 12px rgba(0,0,0,0.55), inset -2px -2px 5px rgba(0,0,0,0.4), inset 2px 2px 4px rgba(255,255,255,0.7);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  z-index: 10; transform: scale(0.3) rotate(-45deg); opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+}
+.pila-coin-lr44.insertada { transform: scale(1) rotate(0deg); opacity: 1; }
+
+.pila-coin-lr44::before {
+  content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border-radius: 50%; border: 1px solid rgba(0,0,0,0.15); pointer-events: none;
+}
+
+.grabado-metal-pila {
+  font-family: 'Arial Black', sans-serif; font-weight: 900; color: rgba(40,42,45,0.75);
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.6); line-height: 1;
+}
+
+.wrapper-tapa-mecanica {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 20;
+  pointer-events: none; transform: translateY(220px); opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s ease;
+}
+.wrapper-tapa-mecanica.cerrada { transform: translateY(0); opacity: 1; }
+
+.tapa-cuerpo-rectangular {
+  width: 100%; height: 145px; background-color: var(--chasis-color);
+  border: 3px solid var(--plastic-dark); border-radius: 12px; box-sizing: border-box;
+  position: absolute; bottom: 0; left: 0;
+  box-shadow: inset 2px 2px 2px var(--plastic-light), 0px 8px 16px rgba(0,0,0,0.35);
+}
+
+.tapa-pestana-redonda {
+  position: absolute; top: 12px; left: calc(50% - 32px); width: 64px; height: 45px;
+  background-color: var(--chasis-color); border: 3px solid var(--plastic-dark);
+  border-bottom: none; border-top-left-radius: 32px; border-top-right-radius: 32px;
+  box-shadow: inset 2px 2px 2px var(--plastic-light); box-sizing: border-box;
+}
+
+.junta-plastica-ocultar {
+  position: absolute; top: 48px; left: calc(50% - 28px); width: 56px; height: 6px;
+  background-color: var(--chasis-color); z-index: 22;
+}
+
+.grabados-molde-tapa {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-around;
+  padding: 20px; box-sizing: border-box; padding-top: 35px;
+}
+.bloque-industrial-texto { display: flex; flex-direction: column; gap: 4px; justify-content: center; }
+.texto-grabado-molde {
+  font-family: Arial, Helvetica, sans-serif; font-size: 8px; font-weight: bold;
+  color: var(--plastic-dark); letter-spacing: 1px;
+  text-shadow: 1px 1px 0px var(--plastic-light), -0.5px -0.5px 0px rgba(0,0,0,0.15);
+}
+
+.logo-basura-molde {
+  width: 32px; height: 38px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.tacho-tapa-css { width: 22px; height: 3px; background-color: var(--plastic-dark); border-radius: 1px; box-shadow: 1px 1px 0px var(--plastic-light); }
+.tacho-cuerpo-css {
+  width: 18px; height: 20px; border: 2px solid var(--plastic-dark); border-top: none;
+  border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; position: relative;
+  box-shadow: 1px 1px 0px var(--plastic-light); margin-top: 1px;
+}
+.tacho-cuerpo-css::before {
+  content: ''; position: absolute; top: 3px; left: 4px; width: 2px; height: 13px; background-color: var(--plastic-dark);
+  box-shadow: 4px 0 var(--plastic-dark), 8px 0 var(--plastic-dark), 1px 1px 0 var(--plastic-light);
+}
+.tacho-x-anulacion { position: absolute; width: 30px; height: 3px; background-color: var(--plastic-dark); top: 18px; transform: rotate(45deg); box-shadow: 1px 1px 0px var(--plastic-light); }
+.tacho-x-anulacion-2 { position: absolute; width: 30px; height: 3px; background-color: var(--plastic-dark); top: 18px; transform: rotate(-45deg); box-shadow: 1px 1px 0px var(--plastic-light); }
+
+.logo-ce-moldura {
+  font-family: 'Times New Roman', Times, serif; font-size: 24px; font-weight: bold;
+  color: var(--plastic-dark); letter-spacing: 4px; display: inline-block;
+  text-shadow: 1px 1px 0px var(--plastic-light), -0.5px -0.5px 0px rgba(0,0,0,0.15);
+}
+
+.tornillo-físico-metal {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #a1a5ad 55%, #44484f 100%);
+  box-shadow: inset 1px 1px 1px white, 0px 3px 5px rgba(0,0,0,0.45);
+  position: absolute; top: 22px; left: calc(50% - 9px); z-index: 30;
+  opacity: 0; transform: scale(1.4) rotate(0deg);
+  transition: opacity 0.15s ease;
+}
+.tornillo-físico-metal.visible { opacity: 1; }
+.tornillo-físico-metal::before { content: ''; position: absolute; top: 8px; left: 3px; width: 12px; height: 2px; background-color: #222; }
+.tornillo-físico-metal::after { content: ''; position: absolute; top: 3px; left: 8px; width: 2px; height: 12px; background-color: #222; }
+
+.tornillo-girando-mecanico { animation: enroscarTornilloFisico 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+
+@keyframes enroscarTornilloFisico {
+  0% { transform: scale(1.4) rotate(0deg); }
+  100% { transform: scale(1.25) rotate(1440deg); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8), 0px 1px 1px rgba(255,255,255,0.2); }
 }

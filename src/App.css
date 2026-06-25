@@ -1,184 +1,153 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+// src/App.jsx
+import React, { useState, useEffect } from 'react'
+// Importamos nuestro chip de sonido desde la nueva carpeta de utilidades
+import { reproducirSonidoRetro } from './utils/audio'
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
+function App() {
+  const [pantalla, setPantalla] = useState('login')
+  const [usuario, setUsuario] = useState('')
+  const [password, setPassword] = useState('')
+  const [tema, setTema] = useState('pink')
 
-.hero {
-  position: relative;
+  useEffect(() => {
+    document.body.className = `theme-${tema}`
+  }, [tema])
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
+  // Cambiar de chasis con sonido de click mecánico
+  const cambiarTema = (nuevoTema) => {
+    reproducirSonidoRetro('click')
+    setTema(nuevoTema)
   }
 
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
+  const manejarLogin = (e) => {
+    e.preventDefault()
+    if (usuario.trim() !== '' && password.trim() !== '') {
+      reproducirSonidoRetro('exito') // ¡Login correcto! Arpegio ascendente
+      setPantalla('menu')
+    } else {
+      reproducirSonidoRetro('error') // Campos vacíos. Zumbido de error
+      alert('¡Ingresa los datos en la pantalla de tu Tamagotchi!')
     }
   }
 
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
+  return (
+    <>
+      <div style={{ width: '100%', maxWidth: '460px', padding: '20px' }}>
+        
+        {/* INTERFAZ DE LOGIN */}
+        {pantalla === 'login' && (
+          <form onSubmit={manejarLogin} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label className="texto-relieve">USUARIO</label>
+              <input 
+                type="text" 
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                className="pantalla-tamagotchi"
+                placeholder="_______________"
+                autoComplete="off"
+              />
+            </div>
 
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label className="texto-relieve">CONTRASEÑA</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="pantalla-tamagotchi"
+                placeholder="•••••••••••••••"
+              />
+            </div>
+
+            {/* BOTONES DE GOMA CONSTANTES */}
+            <div className="contenedor-botones">
+              <div className="boton-goma-wrapper">
+                <button type="submit" className="btn-goma" title="Iniciar Sesión" />
+                <span className="texto-relieve" style={{ fontSize: '0.75rem', letterSpacing: '1px' }}>
+                  Iniciar Sesión
+                </span>
+              </div>
+
+              <div className="boton-goma-wrapper">
+                <button 
+                  type="button" 
+                  className="btn-goma" 
+                  title="Registrarse"
+                  onClick={() => {
+                    reproducirSonidoRetro('click')
+                    alert('¡Abriendo pantalla de registro!')
+                  }} 
+                />
+                <span className="texto-relieve" style={{ fontSize: '0.75rem', letterSpacing: '1px' }}>
+                  Registrarse
+                </span>
+              </div>
+            </div>
+
+          </form>
+        )}
+
+        {/* MENÚ PRINCIPAL */}
+        {pantalla === 'menu' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '25px', textAlign: 'center' }}>
+            <p className="texto-relieve" style={{ fontSize: '1.1rem', marginBottom: '10px' }}>
+              HOLA: {usuario}
+            </p>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
+                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Lector...') }} />
+                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>⚡ LECTOR ⚡</span>
+              </div>
+              
+              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
+                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Estudio...') }} />
+                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>📝 ESTUDIO 📝</span>
+              </div>
+
+              <div className="boton-goma-wrapper" style={{ flexDirection: 'row', gap: '20px', width: '100%', justifyContent: 'flex-start', paddingLeft: '60px' }}>
+                <button className="btn-goma" onClick={() => { reproducirSonidoRetro('click'); alert('Abriendo Resumen...') }} />
+                <span className="texto-relieve" style={{ fontSize: '1.1rem' }}>📊 RESUMEN 📊</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* SWITCH SUPERIOR IZQUIERDO */}
+      <div className="panel-perilla-lateral">
+        <div className="carril-perilla" onClick={() => {
+          if (tema === 'blue') cambiarTema('pink')
+          else if (tema === 'pink') cambiarTema('black')
+          else cambiarTema('blue')
+        }}>
+          <div className={`perilla-mecanica perilla-pos-${tema}`} />
+        </div>
+
+        <div className="etiquetas-perilla">
+          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('blue')}>BLUE —</span>
+          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('pink')}>PINK —</span>
+          <span className="texto-relieve etiqueta-click" onClick={() => cambiarTema('black')}>BLACK —</span>
+        </div>
+      </div>
+
+      {/* TEXTO DE ADVERTENCIA GRABADO EN PLÁSTICO */}
+      {pantalla === 'login' && (
+        <div className="contenedor-advertencia">
+          <p className="texto-alerta-mecanico">
+            <span className="simbolo-alerta-mecanico">⚠️</span>
+            <span>
+              SE RECOMIENDA F11 PANTALLA COMPLETA<br />
+              DESACTIVAR FORZAR MODO OSCURO EN NAVEGADOR
+            </span>
+          </p>
+        </div>
+      )}
+    </>
+  )
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
-}
+export default App
