@@ -1,0 +1,9 @@
+/* Contenedor específico para mantener el login centrado y contenido */
+.contenedor-login-wrapper {
+  width: 100%;
+  max-width: 460px;
+  padding: 20px;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+}

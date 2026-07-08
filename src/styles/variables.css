@@ -1,0 +1,27 @@
+/* Colores por defecto (Pink) */
+:root {
+  --color-chasis: #ff8da1;
+  --color-borde: #e1637b;
+  --color-texto: #520b17;
+}
+
+/* Paleta cuando la perilla está en PINK */
+.theme-pink {
+  --color-chasis: #ff8da1;
+  --color-borde: #e1637b;
+  --color-texto: #520b17;
+}
+
+/* Paleta cuando la perilla está en BLUE */
+.theme-blue {
+  --color-chasis: #5ba3b2;
+  --color-borde: #3b7682;
+  --color-texto: #0f272c;
+}
+
+/* Paleta cuando la perilla está en BLACK */
+.theme-black {
+  --color-chasis: #232731;
+  --color-borde: #111318;
+  --color-texto: #ff3b30;
+}

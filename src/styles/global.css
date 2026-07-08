@@ -1,0 +1,21 @@
+@import './variables.css'; /* Asegurate de que esta línea esté activa arriba de todo */
+@import './login/iniciarSesion.css';
+@import './login/registrarse.css';
+@import './menu/menuPrincipal.css';
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  
+  /* 🔄 CAMBIO CLAVE: Cambiamos el #282c34 fijo por la variable del chasis */
+  background-color: var(--color-chasis); 
+  color: var(--color-texto);
+  
+  /* Transición suave para que el plástico cambie de color como un gadget real */
+  transition: background-color 0.4s ease, color 0.4s ease; 
+  overflow-x: hidden;
+}
